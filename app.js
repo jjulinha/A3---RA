@@ -50,4 +50,18 @@ document.addEventListener('DOMContentLoaded', () => {
     viewer.addEventListener('ar-status', (event) => {
         console.log('AR Status:', event.detail.status);
     });
+
+    // Apply Custom Texture
+    viewer.addEventListener('load', async () => {
+        const material = viewer.model.materials[0];
+
+        // Create texture from the asset
+        const texture = await viewer.createTexture('assets/texture.png');
+
+        if (material && texture) {
+            // Apply to base color
+            material.pbrMetallicRoughness.baseColorTexture.setTexture(texture);
+            console.log('Texture applied successfully');
+        }
+    });
 });
