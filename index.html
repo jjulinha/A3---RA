@@ -5,22 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AR Tech Showcase</title>
     <meta name="description" content="Apresentação de modelos 3D em Realidade Aumentada para Ciência da Computação.">
-    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Roboto+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
     <!-- Model Viewer -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-    
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="background-overlay"></div>
-
     <header>
         <div class="logo">AR.TECH</div>
         <nav>
@@ -28,50 +25,38 @@
             <a href="#models">Modelos</a>
         </nav>
     </header>
-
     <main>
         <section id="hero" class="hero-section">
             <div class="hero-content">
                 <h1>O Futuro da <span class="highlight">Visualização</span></h1>
-                <p>Explore modelos de alta fidelidade em Realidade Aumentada. Uma experiência imersiva para o trabalho final de Ciência da Computação.</p>
+                <p>Explore modelos de alta fidelidade em Realidade Aumentada. Uma experiência imersiva para o trabalho
+                    final de Ciência da Computação.</p>
                 <a href="#models" class="cta-button">Ver Modelos</a>
             </div>
         </section>
-
         <section id="models" class="models-section">
             <div class="models-container">
                 <div class="viewer-container">
-                    <model-viewer 
-                        id="ar-viewer"
-                        src="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb" 
+                    <model-viewer id="ar-viewer" src="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb"
                         ios-src="https://modelviewer.dev/shared-assets/models/RobotExpressive.usdz"
-                        poster="https://modelviewer.dev/assets/poster-robot.png"
-                        alt="Um modelo 3D de um robô futurista"
-                        shadow-intensity="1"
-                        camera-controls
-                        auto-rotate
-                        ar
-                        ar-modes="webxr scene-viewer quick-look"
-                        environment-image="neutral"
-                        exposure="1"
-                        tone-mapping="aces"
-                    >
+                        poster="https://modelviewer.dev/assets/poster-robot.png" alt="Um modelo 3D de um robô futurista"
+                        shadow-intensity="1" camera-controls auto-rotate ar ar-modes="webxr scene-viewer quick-look"
+                        ar-scale="auto" ar-placement="floor" environment-image="neutral" exposure="1"
+                        tone-mapping="aces">
                         <button class="ar-button" slot="ar-button">
                             👋 Ver em AR
                         </button>
-                        
                         <div id="ar-prompt">
                             <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
                         </div>
                     </model-viewer>
                 </div>
-
                 <div class="controls-panel">
                     <h2>Selecione o Modelo</h2>
                     <p class="model-description" id="model-desc">
-                        Robô Expressivo: Um exemplo de robótica avançada com animações fluidas e texturas PBR detalhadas.
+                        Robô Expressivo: Um exemplo de robótica avançada com animações fluidas e texturas PBR
+                        detalhadas.
                     </p>
-                    
                     <div class="button-group">
                         <button class="model-btn active" data-model="robot">
                             <span class="icon">🤖</span> Robô Tech
@@ -80,7 +65,6 @@
                             <span class="icon">👨‍🚀</span> Astronauta
                         </button>
                     </div>
-
                     <div class="tech-specs">
                         <h3>Especificações</h3>
                         <ul>
@@ -93,11 +77,9 @@
             </div>
         </section>
     </main>
-
     <footer>
         <p>Desenvolvido para CC - Trabalho Final de Realidade Aumentada</p>
     </footer>
-
     <script src="app.js"></script>
 </body>
 </html>
