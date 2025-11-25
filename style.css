@@ -1,83 +1,130 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const viewer = document.querySelector('#ar-viewer');
-    const buttons = document.querySelectorAll('.model-btn');
-    const description = document.getElementById('model-desc');
-    
-    // Elementos do Painel de Estatísticas
-    const statPoly = document.getElementById('poly-count');
-    const statVertex = document.getElementById('vertex-count');
-    const statSize = document.getElementById('file-size');
+:root {
+    --bg-color: #0b0c10;
+    --panel-bg: rgba(31, 40, 51, 0.7);
+    --text-main: #c5c6c7;
+    --primary-color: #66fcf1; /* Ciano Elétrico */
+    --secondary-color: #45a29e;
+    --border-color: rgba(102, 252, 241, 0.2);
+    --font-tech: 'Rajdhani', sans-serif;
+    --font-mono: 'Roboto Mono', monospace;
+}
 
-    // Dados dos Modelos (Com viés acadêmico/técnico)
-    const models = {
-        robot: {
-            src: 'https://modelviewer.dev/shared-assets/models/RobotExpressive.glb',
-            iosSrc: 'https://modelviewer.dev/shared-assets/models/RobotExpressive.usdz',
-            animation: 'Wave',
-            desc: 'Robô Expressivo: Análise de malha deformável (Skinned Mesh). Demonstração de rigging hierárquico e interpolação de animação em tempo real.',
-            stats: {
-                poly: '~24.500',
-                vert: '~12.200',
-                size: '5.4 MB'
-            }
-        },
-        astronaut: {
-            src: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
-            iosSrc: 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz',
-            animation: 'Wave', 
-            desc: 'Astronauta: Estudo de materiais reflexivos e oclusão de ambiente. Demonstra mapeamento UV complexo em superfícies curvas sem distorção.',
-            stats: {
-                poly: '~18.200',
-                vert: '~9.100',
-                size: '3.8 MB'
-            }
-        }
-    };
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-    // Função de Troca de Modelo
-    buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Atualiza botões
-            buttons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-tech);
+    height: 100vh;
+    overflow: hidden; /* Impede rolagem global */
+}
 
-            // Pega dados do modelo
-            const modelKey = btn.getAttribute('data-model');
-            const data = models[modelKey];
+.background-overlay {
+    position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1;
+    background: radial-gradient(circle at 70% 30%, #1f2833 0%, #0b0c10 70%);
+}
 
-            // Atualiza o Visualizador 3D
-            viewer.src = data.src;
-            viewer.iosSrc = data.iosSrc;
-            viewer.animationName = data.animation || null;
+/* Header */
+header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 2rem; border-bottom: 1px solid var(--border-color);
+    background: rgba(11, 12, 16, 0.9);
+}
 
-            // Efeito de Fade na descrição e Stats
-            description.style.opacity = '0';
-            
-            setTimeout(() => {
-                // Atualiza textos
-                description.textContent = data.desc;
-                statPoly.textContent = data.stats.poly;
-                statVertex.textContent = data.stats.vert;
-                statSize.textContent = data.stats.size;
-                
-                description.style.opacity = '1';
-            }, 200);
-        });
-    });
+.logo { font-size: 1.8rem; font-weight: 700; letter-spacing: 2px; }
 
-    // Monitoramento de Status AR (Para Debug e Feedback)
-    viewer.addEventListener('ar-status', (event) => {
-        console.log('AR Status:', event.detail.status);
-        
-        if(event.detail.status === 'session-started'){
-            // Feedback quando entra em AR
-            console.log("Sessão iniciada: Buscando planos horizontais...");
-        }
-    });
+.status-indicator {
+    display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--primary-color);
+}
+.blink { width: 8px; height: 8px; background: var(--primary-color); border-radius: 50%; animation: blinker 2s linear infinite; }
+@keyframes blinker { 50% { opacity: 0; } }
 
-    // Tratamento de Erros de Carregamento
-    viewer.addEventListener('error', (error) => {
-        console.error('Erro ao carregar modelo:', error);
-        description.textContent = "Erro: Não foi possível carregar a malha 3D. Verifique a conexão.";
-    });
-});
+/* Main Grid Layout */
+.main-interface {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    height: calc(100vh - 70px);
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* Controls Column */
+.controls-column {
+    display: flex; flex-direction: column; gap: 1rem; overflow-y: auto;
+}
+
+.panel-box {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    padding: 1.2rem; border-radius: 4px;
+}
+
+h3 {
+    color: var(--primary-color); font-size: 1.1rem; margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 8px; text-transform: uppercase;
+}
+
+/* Model Buttons */
+.model-btn {
+    width: 100%; background: transparent; border: 1px solid #444;
+    color: #fff; padding: 10px; margin-bottom: 8px; text-align: left;
+    cursor: pointer; transition: all 0.3s;
+    border-left: 3px solid transparent;
+}
+
+.model-btn:hover { background: rgba(255,255,255,0.05); }
+.model-btn.active {
+    border-color: var(--primary-color); background: rgba(102, 252, 241, 0.1);
+    border-left: 3px solid var(--primary-color);
+}
+
+.btn-title { display: block; font-weight: 700; font-size: 1.1rem; }
+.btn-sub { display: block; font-size: 0.8rem; color: #888; font-family: var(--font-mono); }
+
+/* Stats */
+.stat-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
+.mono { font-family: var(--font-mono); color: #fff; }
+
+/* Slider */
+input[type=range] { width: 100%; margin: 10px 0; accent-color: var(--primary-color); }
+.slider-val { font-size: 0.8rem; text-align: right; color: var(--primary-color); }
+
+/* Viewer Area */
+.viewer-area { display: flex; flex-direction: column; gap: 1rem; height: 100%; }
+
+.viewer-wrapper {
+    flex: 1; position: relative; border: 1px solid var(--border-color);
+    border-radius: 8px; overflow: hidden;
+}
+
+model-viewer { width: 100%; height: 100%; background: #111; }
+
+.overlay-tech {
+    position: absolute; top: 10px; right: 10px;
+    font-family: var(--font-mono); font-size: 0.7rem; color: var(--primary-color);
+    display: flex; flex-direction: column; text-align: right; pointer-events: none;
+}
+
+.ar-button {
+    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--primary-color); color: #000; border: none;
+    padding: 12px 24px; font-weight: 700; letter-spacing: 1px;
+    clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+    cursor: pointer;
+}
+
+.info-footer {
+    background: var(--panel-bg); border: 1px solid var(--border-color);
+    padding: 1rem; border-radius: 4px;
+}
+
+#model-title { color: #fff; font-size: 1.5rem; margin-bottom: 0.5rem; }
+#model-desc { font-size: 1rem; line-height: 1.4; max-width: 800px; }
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+    .main-interface { grid-template-columns: 1fr; grid-template-rows: 1fr auto; height: auto; overflow-y: auto; }
+    body { overflow: auto; }
+    .viewer-wrapper { height: 50vh; }
+    .controls-column { order: 2; }
+}
