@@ -1,386 +1,83 @@
-:root {
-    --bg-color: #0a0a0a;
-    --text-color: #e0e0e0;
-    --primary-color: #00f3ff; /* Cyan Neon */
-    --secondary-color: #7000ff; /* Purple Neon */
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --font-main: 'Outfit', sans-serif;
-    --font-mono: 'Roboto Mono', monospace;
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const viewer = document.querySelector('#ar-viewer');
+    const buttons = document.querySelectorAll('.model-btn');
+    const description = document.getElementById('model-desc');
+    
+    // Elementos do Painel de Estatísticas
+    const statPoly = document.getElementById('poly-count');
+    const statVertex = document.getElementById('vertex-count');
+    const statSize = document.getElementById('file-size');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    // Dados dos Modelos (Com viés acadêmico/técnico)
+    const models = {
+        robot: {
+            src: 'https://modelviewer.dev/shared-assets/models/RobotExpressive.glb',
+            iosSrc: 'https://modelviewer.dev/shared-assets/models/RobotExpressive.usdz',
+            animation: 'Wave',
+            desc: 'Robô Expressivo: Análise de malha deformável (Skinned Mesh). Demonstração de rigging hierárquico e interpolação de animação em tempo real.',
+            stats: {
+                poly: '~24.500',
+                vert: '~12.200',
+                size: '5.4 MB'
+            }
+        },
+        astronaut: {
+            src: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+            iosSrc: 'https://modelviewer.dev/shared-assets/models/Astronaut.usdz',
+            animation: 'Wave', 
+            desc: 'Astronauta: Estudo de materiais reflexivos e oclusão de ambiente. Demonstra mapeamento UV complexo em superfícies curvas sem distorção.',
+            stats: {
+                poly: '~18.200',
+                vert: '~9.100',
+                size: '3.8 MB'
+            }
+        }
+    };
 
-body {
-    font-family: var(--font-main);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    overflow-x: hidden;
-    line-height: 1.6;
-}
+    // Função de Troca de Modelo
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Atualiza botões
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-/* Background Effect */
-.background-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #050505; /* Fallback */
-    z-index: -1;
-}
+            // Pega dados do modelo
+            const modelKey = btn.getAttribute('data-model');
+            const data = models[modelKey];
 
-.background-overlay::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.05) 0%, rgba(0, 0, 0, 0.9) 100%);
-}
+            // Atualiza o Visualizador 3D
+            viewer.src = data.src;
+            viewer.iosSrc = data.iosSrc;
+            viewer.animationName = data.animation || null;
 
-/* Header */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem 5%;
-    backdrop-filter: blur(10px);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid var(--glass-border);
-}
+            // Efeito de Fade na descrição e Stats
+            description.style.opacity = '0';
+            
+            setTimeout(() => {
+                // Atualiza textos
+                description.textContent = data.desc;
+                statPoly.textContent = data.stats.poly;
+                statVertex.textContent = data.stats.vert;
+                statSize.textContent = data.stats.size;
+                
+                description.style.opacity = '1';
+            }, 200);
+        });
+    });
 
-.logo {
-    font-family: var(--font-mono);
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--primary-color);
-    letter-spacing: 2px;
-}
+    // Monitoramento de Status AR (Para Debug e Feedback)
+    viewer.addEventListener('ar-status', (event) => {
+        console.log('AR Status:', event.detail.status);
+        
+        if(event.detail.status === 'session-started'){
+            // Feedback quando entra em AR
+            console.log("Sessão iniciada: Buscando planos horizontais...");
+        }
+    });
 
-nav a {
-    color: var(--text-color);
-    text-decoration: none;
-    margin-left: 2rem;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-nav a:hover {
-    color: var(--primary-color);
-}
-
-/* Hero Section */
-.hero-section {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 1rem;
-}
-
-.hero-content h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1.5rem;
-    line-height: 1.1;
-}
-
-.hero-content .highlight {
-    color: transparent;
-    -webkit-text-stroke: 1px var(--primary-color);
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    -webkit-background-clip: text;
-    background-clip: text;
-    font-weight: 700;
-}
-
-.cta-button {
-    display: inline-block;
-    padding: 1rem 2.5rem;
-    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
-    color: #fff;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.cta-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 243, 255, 0.3);
-}
-
-/* Models Section */
-.models-section {
-    min-height: 100vh;
-    padding: 6rem 5%;
-    display: flex;
-    align-items: center;
-}
-
-.models-container {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 4rem;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 2rem;
-    backdrop-filter: blur(20px);
-}
-
-/* Viewer Container & Debug Overlay */
-.viewer-container {
-    height: 600px;
-    background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
-    border-radius: 15px;
-    overflow: hidden;
-    position: relative;
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 0 30px rgba(0, 243, 255, 0.05);
-}
-
-model-viewer {
-    width: 100%;
-    height: 100%;
-    --poster-color: transparent;
-}
-
-.debug-overlay {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    background: rgba(10, 10, 10, 0.85);
-    backdrop-filter: blur(4px);
-    padding: 10px 15px;
-    border-radius: 6px;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    pointer-events: none;
-    border-left: 3px solid var(--primary-color);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    z-index: 10;
-    min-width: 180px;
-}
-
-.debug-header {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 8px;
-    font-weight: 700;
-    color: var(--text-color);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 4px;
-}
-
-.dot {
-    width: 8px;
-    height: 8px;
-    background-color: #00ff00;
-    border-radius: 50%;
-    box-shadow: 0 0 5px #00ff00;
-}
-
-.debug-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.debug-row {
-    display: flex;
-    justify-content: space-between;
-    color: #aaaaaa;
-}
-
-.debug-row span:last-child {
-    color: #fff;
-    font-weight: 500;
-}
-
-.val-green { color: #00ff00 !important; }
-
-/* AR Prompt Hand */
-#ar-prompt {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    pointer-events: none;
-    display: none; /* Controlado pelo model-viewer */
-}
-
-/* Model Viewer injeta display block quando necessário */
-model-viewer[ar-status="session-started"] #ar-prompt {
-    display: block;
-}
-
-#ar-prompt img {
-    width: 60px;
-    animation: handMove 2s infinite ease-in-out;
-    filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
-}
-
-@keyframes handMove {
-    0% { transform: translateX(-20px); opacity: 0.5; }
-    50% { transform: translateX(20px); opacity: 1; }
-    100% { transform: translateX(-20px); opacity: 0.5; }
-}
-
-.ar-button {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background: #fff;
-    color: #000;
-    border: none;
-    border-radius: 30px;
-    padding: 10px 20px;
-    font-family: var(--font-main);
-    font-weight: 700;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    cursor: pointer;
-    z-index: 50;
-    transition: transform 0.2s;
-}
-
-.ar-button:active { transform: scale(0.95); }
-
-/* Controls & Stats Panel */
-.controls-panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.controls-panel h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: var(--primary-color);
-}
-
-.model-description {
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-    opacity: 0.9;
-    min-height: 80px;
-}
-
-.stats-panel {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--glass-border);
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 2rem;
-    font-family: var(--font-mono);
-}
-
-.stats-panel h4 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-    border-bottom: 1px solid var(--glass-border);
-    padding-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.stat-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-    font-size: 0.85rem;
-    color: #aaa;
-}
-
-.mono-text { color: #fff; font-weight: 700; }
-
-.button-group {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.model-btn {
-    flex: 1;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--glass-border);
-    color: var(--text-color);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-main);
-    font-size: 0.9rem;
-}
-
-.model-btn:hover { background: rgba(255, 255, 255, 0.1); }
-
-.model-btn.active {
-    border-color: var(--primary-color);
-    background: rgba(0, 243, 255, 0.1);
-    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
-}
-
-.tech-specs {
-    border-top: 1px solid var(--glass-border);
-    padding-top: 1rem;
-}
-
-.tech-specs h3 {
-    font-family: var(--font-mono);
-    margin-bottom: 0.5rem;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    color: var(--secondary-color);
-}
-
-.tech-specs ul {
-    list-style: none;
-    font-size: 0.85rem;
-    opacity: 0.7;
-}
-
-.tech-specs li::before {
-    content: "> ";
-    color: var(--primary-color);
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 2rem;
-    border-top: 1px solid var(--glass-border);
-    font-size: 0.8rem;
-    opacity: 0.6;
-}
-
-/* Responsive */
-@media (max-width: 968px) {
-    .models-container {
-        grid-template-columns: 1fr;
-    }
-    .viewer-container { height: 450px; }
-    .hero-content h1 { font-size: 2.5rem; }
-}
+    // Tratamento de Erros de Carregamento
+    viewer.addEventListener('error', (error) => {
+        console.error('Erro ao carregar modelo:', error);
+        description.textContent = "Erro: Não foi possível carregar a malha 3D. Verifique a conexão.";
+    });
+});
