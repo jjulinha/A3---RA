@@ -1,97 +1,100 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PBR Technical Viewer | CS Final Project</title>
-    
+    <title>Análise de Hardware AR</title>
+    <meta name="description"
+        content="Visualização e análise teórica de componentes de hardware em Realidade Aumentada.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Roboto+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Model Viewer -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div class="background-overlay"></div>
 
     <header>
-        <div class="logo">AR.TECH<span style="color:var(--primary-color)">_ANALYZER</span></div>
-        <div class="status-indicator">
-            <span class="blink"></span> WebXR READY
-        </div>
+        <div class="logo">HARDWARE.AR</div>
+        <nav>
+            <a href="#analysis">Análise</a>
+            <a href="#docs">Documentação</a>
+        </nav>
     </header>
 
     <main>
-        <div class="main-interface">
-            <div class="controls-column">
-                <div class="panel-box">
-                    <h3><span class="icon">📂</span> Ativos de Teste</h3>
-                    <button class="model-btn active" data-model="helmet">
-                        <span class="btn-title">PBR Standard: Battle Helmet</span>
-                        <span class="btn-sub">Teste de Metais e Oclusão</span>
+        <section class="content-container">
+            <div class="viewer-wrapper">
+                <model-viewer id="ar-viewer" src="assets/simple_motherboard.glb"
+                    alt="Placa-Mãe: Arquitetura e Componentes" shadow-intensity="1.5" shadow-softness="0.8"
+                    camera-controls auto-rotate ar ar-modes="scene-viewer webxr quick-look" ar-scale="auto"
+                    ar-placement="floor" environment-image="assets/environment.png"
+                    skybox-image="assets/environment.png" exposure="1.5" tone-mapping="commerce"
+                    interaction-prompt="auto">
+                    <button class="ar-button" slot="ar-button">
+                        👋 Ver em AR
                     </button>
-                    <button class="model-btn" data-model="dish">
-                        <span class="btn-title">Complex Shader: Iridescence</span>
-                        <span class="btn-sub">Teste de Refração/Thin Film</span>
-                    </button>
-                </div>
 
-                <div class="panel-box">
-                    <h3><span class="icon">☀</span> Controle de Iluminação (IBL)</h3>
-                    <label>Rotação do Ambiente HDR</label>
-                    <input type="range" id="lighting-slider" min="0" max="360" value="0">
-                    <p class="slider-val">Ângulo: <span id="light-val">0deg</span></p>
-                </div>
-
-                <div class="panel-box stats-box">
-                    <h3><span class="icon">📊</span> Geometria & Textura</h3>
-                    <div class="stat-row"><span>Triângulos:</span> <span id="poly-count" class="mono">---</span></div>
-                    <div class="stat-row"><span>Vértices:</span> <span id="vertex-count" class="mono">---</span></div>
-                    <div class="stat-row"><span>Mapas:</span> <span id="texture-res" class="mono">---</span></div>
-                </div>
-            </div>
-
-            <div class="viewer-area">
-                <div class="viewer-wrapper">
-                    <model-viewer id="ar-viewer" 
-                        src="DamagedHelmet.glb"
-                        ios-src="DamagedHelmet.glb"
-                        alt="Modelo 3D Técnico"
-                        
-                        ar 
-                        ar-modes="webxr scene-viewer quick-look" 
-                        ar-scale="auto" 
-                        ar-placement="floor"
-                        interaction-prompt="auto"
-                        
-                        camera-controls 
-                        touch-action="pan-y"
-                        disable-zoom
-                        
-                        shadow-intensity="1.8" 
-                        shadow-softness="0.8"
-                        environment-image="neutral" 
-                        exposure="1.0"
-                        tone-mapping="aces">
-                        
-                        <button class="ar-button" slot="ar-button">
-                            👁‍🗨 PROJETAR EM AR
-                        </button>
-                    </model-viewer>
-                    
-                    <div class="overlay-tech">
-                        <span>API: WebGL 2.0</span>
-                        <span>MODE: REALTIME PBR</span>
+                    <div id="ar-prompt">
+                        <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
                     </div>
+                </model-viewer>
+            </div>
+
+            <div class="info-panel">
+                <h1>Arquitetura de Hardware</h1>
+                <div class="theoretical-content">
+                    <h3>Análise do Componente: Placa-Mãe</h3>
+                    <p>
+                        A placa-mãe (motherboard) atua como a espinha dorsal do sistema computacional, interconectando a
+                        Unidade Central de Processamento (CPU), memória volátil (RAM) e interfaces de entrada/saída
+                        (I/O).
+                    </p>
+                    <p>
+                        Este modelo 3D permite a visualização espacial dos barramentos de comunicação, soquetes de
+                        processamento e dissipadores térmicos, fundamentais para a compreensão da arquitetura de
+                        computadores moderna.
+                    </p>
                 </div>
-                
-                <div class="info-footer">
-                    <h2 id="model-title">Carregando...</h2>
-                    <p id="model-desc">Selecione um ativo para iniciar a análise técnica.</p>
+
+                <div class="action-buttons">
+                    <a href="#" class="doc-btn primary">
+                        <span class="icon">📊</span> Slides da Apresentação
+                    </a>
+                    <a href="#" class="doc-btn secondary">
+                        <span class="icon">📄</span> Documentação Técnica
+                    </a>
+                </div>
+
+                <div class="tech-specs">
+                    <h3>Especificações Técnicas</h3>
+                    <ul>
+                        <li>Modelo: ATX Standard Architecture</li>
+                        <li>Visualização: PBR Rendering</li>
+                        <li>Plataforma: WebXR AR Integration</li>
+                    </ul>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
+
+    <footer>
+        <p>Projeto Final - Ciência da Computação | Arquitetura de Computadores</p>
+    </footer>
 
     <script src="app.js"></script>
 </body>
+
 </html>
