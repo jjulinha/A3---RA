@@ -1,51 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Tech Showcase - Computer Science</title>
-    <meta name="description" content="Análise de topologia e renderização em Realidade Aumentada.">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-
+    <title>Eng. Prototyping | AR Viewer</title>
+    
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
     <div class="background-overlay"></div>
 
     <header>
-        <div class="logo">AR.DEV<span style="font-size:0.5em; color:var(--text-color)">_TOOLKIT</span></div>
-        <nav>
-            <a href="#about">Conceitos</a>
-            <a href="#models">Simulação</a>
-        </nav>
+        <div class="logo">PROTO<span style="color:var(--primary-color)">.LAB</span>_AR</div>
+        <div class="status-indicator">
+            <span class="blink"></span> SYSTEM ONLINE
+        </div>
     </header>
 
     <main>
-        <section id="hero" class="hero-section">
-            <div class="hero-content">
-                <h1>Renderização & <span class="highlight">Topologia 3D</span></h1>
-                <p>Ferramenta de análise para renderização baseada em física (PBR) e detecção de planos em WebXR.</p>
-                <a href="#models" class="cta-button">Iniciar Análise</a>
-            </div>
-        </section>
+        <div class="main-interface">
+            <div class="controls-column">
+                <div class="panel-box">
+                    <h3><span class="icon">📂</span> Seletor de Ativos</h3>
+                    <button class="model-btn active" data-model="helmet">
+                        <span class="btn-title">M-78 Battle Helmet</span>
+                        <span class="btn-sub">Material: Metal/Cerâmica</span>
+                    </button>
+                    <button class="model-btn" data-model="lens">
+                        <span class="btn-title">Optic Lens Alpha</span>
+                        <span class="btn-sub">Material: Vidro/Composto</span>
+                    </button>
+                </div>
 
-        <section id="models" class="models-section">
-            <div class="models-container">
-                
-                <div class="viewer-container">
+                <div class="panel-box">
+                    <h3><span class="icon">☀</span> Simulação de Luz</h3>
+                    <label>Rotação do Ambiente (HDR)</label>
+                    <input type="range" id="lighting-slider" min="0" max="360" value="0">
+                    <p class="slider-val">Ângulo: <span id="light-val">0deg</span></p>
+                </div>
+
+                <div class="panel-box stats-box">
+                    <h3><span class="icon">📊</span> Telemetria da Malha</h3>
+                    <div class="stat-row"><span>Polígonos:</span> <span id="poly-count" class="mono">Carregando...</span></div>
+                    <div class="stat-row"><span>Vértices:</span> <span id="vertex-count" class="mono">Carregando...</span></div>
+                    <div class="stat-row"><span>Texturas:</span> <span id="texture-res" class="mono">Carregando...</span></div>
+                </div>
+            </div>
+
+            <div class="viewer-area">
+                <div class="viewer-wrapper">
                     <model-viewer id="ar-viewer" 
-                        src="https://modelviewer.dev/shared-assets/models/RobotExpressive.glb"
-                        ios-src="https://modelviewer.dev/shared-assets/models/RobotExpressive.usdz"
-                        poster="https://modelviewer.dev/assets/poster-robot.png" 
-                        alt="Modelo 3D Didático"
+                        src="https://modelviewer.dev/shared-assets/models/DamagedHelmet.glb"
+                        ios-src="https://modelviewer.dev/shared-assets/models/DamagedHelmet.glb"
+                        alt="Prototipagem 3D"
                         
                         ar 
                         ar-modes="webxr scene-viewer quick-look" 
@@ -57,88 +67,30 @@
                         touch-action="pan-y"
                         disable-zoom
                         
-                        shadow-intensity="1.5" 
-                        shadow-softness="0.8"
+                        shadow-intensity="1.8" 
+                        shadow-softness="0.5"
                         environment-image="neutral" 
                         exposure="1.0"
-                        tone-mapping="commerce"
-                        
-                        autoplay 
-                        animation-name="Wave">
+                        tone-mapping="aces">
                         
                         <button class="ar-button" slot="ar-button">
-                            👋 Projetar no Ambiente (AR)
+                            👁‍🗨 INICIAR PROJEÇÃO AR
                         </button>
-
-                        <div id="ar-prompt" slot="interaction-prompt">
-                            <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
-                        </div>
                     </model-viewer>
-
-                    <div class="debug-overlay">
-                        <div class="debug-header">
-                            <span class="dot"></span> LIVE DEBUG
-                        </div>
-                        <div class="debug-content">
-                            <div class="debug-row"><span>FPS:</span> <span class="val-green">60</span></div>
-                            <div class="debug-row"><span>API:</span> <span>WebXR</span></div>
-                            <div class="debug-row"><span>TRACKING:</span> <span>6DoF / Surface</span></div>
-                            <div class="debug-row"><span>RENDER:</span> <span>PBR / WebGL 2</span></div>
-                        </div>
+                    
+                    <div class="overlay-tech">
+                        <span>RENDER: PBR_METALLIC_ROUGHNESS</span>
+                        <span>FOV: 45°</span>
                     </div>
                 </div>
-
-                <div class="controls-panel">
-                    <h2>Objeto de Estudo</h2>
-                    <p class="model-description" id="model-desc">
-                        Robô Expressivo: Malha com rigging complexo. Ideal para estudar deformação de vértices e texturas PBR.
-                    </p>
-
-                    <div class="stats-panel">
-                        <h4><span class="icon">📊</span> Métricas de Malha</h4>
-                        <div class="stat-row">
-                            <span>Triângulos:</span>
-                            <span id="poly-count" class="mono-text">~24.500</span>
-                        </div>
-                        <div class="stat-row">
-                            <span>Vértices:</span>
-                            <span id="vertex-count" class="mono-text">~12.200</span>
-                        </div>
-                        <div class="stat-row">
-                            <span>Draw Calls:</span>
-                            <span id="draw-calls" class="mono-text">14</span>
-                        </div>
-                        <div class="stat-row">
-                            <span>Tamanho:</span>
-                            <span id="file-size" class="mono-text">5.4 MB</span>
-                        </div>
-                    </div>
-
-                    <div class="button-group">
-                        <button class="model-btn active" data-model="robot">
-                            <span class="icon">🤖</span> Malha Rigged
-                        </button>
-                        <button class="model-btn" data-model="astronaut">
-                            <span class="icon">👨‍🚀</span> Malha Estática
-                        </button>
-                    </div>
-
-                    <div class="tech-specs">
-                        <h3>Especificações de Pipeline</h3>
-                        <ul>
-                            <li>Shader: PBR Standard Material</li>
-                            <li>Oclusão: Ambient Occlusion (Baked)</li>
-                            <li>Compressão: Draco / KTX2</li>
-                        </ul>
-                    </div>
+                
+                <div class="info-footer">
+                    <h2 id="model-title">M-78 Battle Helmet</h2>
+                    <p id="model-desc">Exemplo de alta fidelidade em texturização PBR. Observe o mapa de emissão (luzes) e o mapa de normais simulando danos físicos na superfície metálica.</p>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
-
-    <footer>
-        <p>Desenvolvido para CC - Trabalho Final de Realidade Aumentada</p>
-    </footer>
 
     <script src="app.js"></script>
 </body>
