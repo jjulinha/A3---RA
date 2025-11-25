@@ -1,10 +1,8 @@
 :root {
     --bg-color: #0a0a0a;
     --text-color: #e0e0e0;
-    --primary-color: #00f3ff;
-    /* Cyan Neon */
-    --secondary-color: #7000ff;
-    /* Purple Neon */
+    --primary-color: #00f3ff; /* Cyan Neon */
+    --secondary-color: #7000ff; /* Purple Neon */
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
     --font-main: 'Outfit', sans-serif;
@@ -32,9 +30,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('assets/background.png') no-repeat center center/cover;
+    background: #050505; /* Fallback */
     z-index: -1;
-    pointer-events: none;
 }
 
 .background-overlay::after {
@@ -44,7 +41,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%);
+    background: radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.05) 0%, rgba(0, 0, 0, 0.9) 100%);
 }
 
 /* Header */
@@ -92,7 +89,7 @@ nav a:hover {
 }
 
 .hero-content h1 {
-    font-size: 4rem;
+    font-size: 3.5rem;
     margin-bottom: 1.5rem;
     line-height: 1.1;
 }
@@ -104,13 +101,6 @@ nav a:hover {
     -webkit-background-clip: text;
     background-clip: text;
     font-weight: 700;
-}
-
-.hero-content p {
-    font-size: 1.2rem;
-    max-width: 600px;
-    margin: 0 auto 2.5rem;
-    opacity: 0.8;
 }
 
 .cta-button {
@@ -153,159 +143,10 @@ nav a:hover {
     backdrop-filter: blur(20px);
 }
 
-/* Viewer */
+/* Viewer Container & Debug Overlay */
 .viewer-container {
     height: 600px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 15px;
-    overflow: hidden;
-    position: relative;
-    border: 1px solid var(--primary-color);
-    box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
-}
-
-.viewer-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
-    z-index: 10;
-}
-
-model-viewer {
-    width: 100%;
-    height: 100%;
-    background-color: #1a1a1a;
-    --poster-color: transparent;
-}
-
-.ar-button {
-    background-color: white;
-    border-radius: 4px;
-    border: none;
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    padding: 10px 20px;
-    font-family: var(--font-main);
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Controls */
-.controls-panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.controls-panel h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: var(--primary-color);
-}
-
-.model-description {
-    margin-bottom: 2rem;
-    font-size: 1.1rem;
-    opacity: 0.9;
-}
-
-.button-group {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 3rem;
-}
-
-.model-btn {
-    flex: 1;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--glass-border);
-    color: var(--text-color);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-main);
-    font-size: 1rem;
-}
-
-.model-btn .icon {
-    font-size: 2rem;
-}
-
-.model-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.model-btn.active {
-    border-color: var(--primary-color);
-    background: rgba(0, 243, 255, 0.1);
-    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
-}
-
-.tech-specs {
-    border-top: 1px solid var(--glass-border);
-    padding-top: 1.5rem;
-}
-
-.tech-specs h3 {
-    font-family: var(--font-mono);
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--secondary-color);
-}
-
-.tech-specs ul {
-    list-style: none;
-    font-size: 0.9rem;
-    opacity: 0.7;
-}
-
-.tech-specs li::before {
-    content: "> ";
-    color: var(--primary-color);
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 2rem;
-    border-top: 1px solid var(--glass-border);
-    font-size: 0.9rem;
-    opacity: 0.6;
-}
-
-/* Responsive */
-@media (max-width: 968px) {
-    .models-container {
-        grid-template-columns: 1fr;
-        height: auto;
-    }
-
-    .viewer-container {
-        height: 400px;
-    }
-
-    .hero-content h1 {
-        font-size: 2.5rem;
-    }
-}
-/* Melhoria na visualização do Viewer */
-.viewer-container {
-    height: 600px;
-    background: radial-gradient(circle at center, #2a2a2a 0%, #000000 100%); /* Fundo neutro melhor */
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
     border-radius: 15px;
     overflow: hidden;
     position: relative;
@@ -313,10 +154,137 @@ footer {
     box-shadow: 0 0 30px rgba(0, 243, 255, 0.05);
 }
 
-/* Painel Técnico (Novo) */
+model-viewer {
+    width: 100%;
+    height: 100%;
+    --poster-color: transparent;
+}
+
+.debug-overlay {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(4px);
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    pointer-events: none;
+    border-left: 3px solid var(--primary-color);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    z-index: 10;
+    min-width: 180px;
+}
+
+.debug-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: var(--text-color);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 4px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00ff00;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #00ff00;
+}
+
+.debug-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.debug-row {
+    display: flex;
+    justify-content: space-between;
+    color: #aaaaaa;
+}
+
+.debug-row span:last-child {
+    color: #fff;
+    font-weight: 500;
+}
+
+.val-green { color: #00ff00 !important; }
+
+/* AR Prompt Hand */
+#ar-prompt {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: none;
+    display: none; /* Controlado pelo model-viewer */
+}
+
+/* Model Viewer injeta display block quando necessário */
+model-viewer[ar-status="session-started"] #ar-prompt {
+    display: block;
+}
+
+#ar-prompt img {
+    width: 60px;
+    animation: handMove 2s infinite ease-in-out;
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+}
+
+@keyframes handMove {
+    0% { transform: translateX(-20px); opacity: 0.5; }
+    50% { transform: translateX(20px); opacity: 1; }
+    100% { transform: translateX(-20px); opacity: 0.5; }
+}
+
+.ar-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-family: var(--font-main);
+    font-weight: 700;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 50;
+    transition: transform 0.2s;
+}
+
+.ar-button:active { transform: scale(0.95); }
+
+/* Controls & Stats Panel */
+.controls-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.controls-panel h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.model-description {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    opacity: 0.9;
+    min-height: 80px;
+}
+
 .stats-panel {
     background: rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--glass-border);
     border-radius: 8px;
     padding: 1rem;
     margin-bottom: 2rem;
@@ -342,58 +310,77 @@ footer {
     color: #aaa;
 }
 
-.mono-text {
-    color: #fff;
-    font-weight: 700;
+.mono-text { color: #fff; font-weight: 700; }
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
-/* Overlay de Debug no Viewer */
-.debug-overlay {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 5px 10px;
-    border-radius: 4px;
+.model-btn {
+    flex: 1;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-color);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+}
+
+.model-btn:hover { background: rgba(255, 255, 255, 0.1); }
+
+.model-btn.active {
+    border-color: var(--primary-color);
+    background: rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+}
+
+.tech-specs {
+    border-top: 1px solid var(--glass-border);
+    padding-top: 1rem;
+}
+
+.tech-specs h3 {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    pointer-events: none;
-    border-left: 2px solid var(--secondary-color);
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--secondary-color);
 }
 
-.debug-item {
-    margin-bottom: 2px;
-}
-model-viewer {
-    width: 100%;
-    height: 100%;
-    background-color: #202020; /* Fundo levemente mais claro para contraste */
-    --poster-color: transparent;
-    /* Impede que o usuário dê scroll na página enquanto tenta girar o modelo 3D */
-    touch-action: pan-y; 
+.tech-specs ul {
+    list-style: none;
+    font-size: 0.85rem;
+    opacity: 0.7;
 }
 
-/* Garante que o prompt de AR (a mãozinha) apareça claramente */
-#ar-prompt {
-    position: absolute;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
+.tech-specs li::before {
+    content: "> ";
+    color: var(--primary-color);
+}
+
+/* Footer */
+footer {
     text-align: center;
-    pointer-events: none;
-    z-index: 10;
+    padding: 2rem;
+    border-top: 1px solid var(--glass-border);
+    font-size: 0.8rem;
+    opacity: 0.6;
 }
 
-#ar-prompt img {
-    animation: moveHand 2s infinite;
-    opacity: 0.8;
-    width: 50px;
+/* Responsive */
+@media (max-width: 968px) {
+    .models-container {
+        grid-template-columns: 1fr;
+    }
+    .viewer-container { height: 450px; }
+    .hero-content h1 { font-size: 2.5rem; }
 }
-
-@keyframes moveHand {
-    0% { transform: translateX(-15px); }
-    50% { transform: translateX(15px); }
-    100% { transform: translateX(-15px); }
-}
-
