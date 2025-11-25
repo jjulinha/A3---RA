@@ -364,3 +364,36 @@ footer {
 .debug-item {
     margin-bottom: 2px;
 }
+model-viewer {
+    width: 100%;
+    height: 100%;
+    background-color: #202020; /* Fundo levemente mais claro para contraste */
+    --poster-color: transparent;
+    /* Impede que o usuário dê scroll na página enquanto tenta girar o modelo 3D */
+    touch-action: pan-y; 
+}
+
+/* Garante que o prompt de AR (a mãozinha) apareça claramente */
+#ar-prompt {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#ar-prompt img {
+    animation: moveHand 2s infinite;
+    opacity: 0.8;
+    width: 50px;
+}
+
+@keyframes moveHand {
+    0% { transform: translateX(-15px); }
+    50% { transform: translateX(15px); }
+    100% { transform: translateX(-15px); }
+}
+
