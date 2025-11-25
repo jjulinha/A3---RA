@@ -71,3 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+    // Otimização: Pausar animação se perder o tracking AR para economizar bateria/processamento
+    viewer.addEventListener('ar-status', (event) => {
+        if(event.detail.status === 'session-started'){
+            description.textContent = "Modo AR Ativo: Aponte para o chão e mova o celular lentamente lateralmente.";
+           
+            // viewer.pause(); 
+        } else if(event.detail.status === 'not-presenting'){
+            description.textContent = data.desc; // Restaura descrição original
+        }
+    });
+
+// ... (resto do código)
