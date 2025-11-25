@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eng. Prototyping | AR Viewer</title>
+    <title>PBR Technical Viewer | CS Final Project</title>
     
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -14,9 +14,9 @@
     <div class="background-overlay"></div>
 
     <header>
-        <div class="logo">PROTO<span style="color:var(--primary-color)">.LAB</span>_AR</div>
+        <div class="logo">AR.TECH<span style="color:var(--primary-color)">_ANALYZER</span></div>
         <div class="status-indicator">
-            <span class="blink"></span> SYSTEM ONLINE
+            <span class="blink"></span> WebXR READY
         </div>
     </header>
 
@@ -24,38 +24,38 @@
         <div class="main-interface">
             <div class="controls-column">
                 <div class="panel-box">
-                    <h3><span class="icon">📂</span> Seletor de Ativos</h3>
+                    <h3><span class="icon">📂</span> Ativos de Teste</h3>
                     <button class="model-btn active" data-model="helmet">
-                        <span class="btn-title">M-78 Battle Helmet</span>
-                        <span class="btn-sub">Material: Metal/Cerâmica</span>
+                        <span class="btn-title">PBR Standard: Battle Helmet</span>
+                        <span class="btn-sub">Teste de Metais e Oclusão</span>
                     </button>
-                    <button class="model-btn" data-model="lens">
-                        <span class="btn-title">Optic Lens Alpha</span>
-                        <span class="btn-sub">Material: Vidro/Composto</span>
+                    <button class="model-btn" data-model="dish">
+                        <span class="btn-title">Complex Shader: Iridescence</span>
+                        <span class="btn-sub">Teste de Refração/Thin Film</span>
                     </button>
                 </div>
 
                 <div class="panel-box">
-                    <h3><span class="icon">☀</span> Simulação de Luz</h3>
-                    <label>Rotação do Ambiente (HDR)</label>
+                    <h3><span class="icon">☀</span> Controle de Iluminação (IBL)</h3>
+                    <label>Rotação do Ambiente HDR</label>
                     <input type="range" id="lighting-slider" min="0" max="360" value="0">
                     <p class="slider-val">Ângulo: <span id="light-val">0deg</span></p>
                 </div>
 
                 <div class="panel-box stats-box">
-                    <h3><span class="icon">📊</span> Telemetria da Malha</h3>
-                    <div class="stat-row"><span>Polígonos:</span> <span id="poly-count" class="mono">Carregando...</span></div>
-                    <div class="stat-row"><span>Vértices:</span> <span id="vertex-count" class="mono">Carregando...</span></div>
-                    <div class="stat-row"><span>Texturas:</span> <span id="texture-res" class="mono">Carregando...</span></div>
+                    <h3><span class="icon">📊</span> Geometria & Textura</h3>
+                    <div class="stat-row"><span>Triângulos:</span> <span id="poly-count" class="mono">---</span></div>
+                    <div class="stat-row"><span>Vértices:</span> <span id="vertex-count" class="mono">---</span></div>
+                    <div class="stat-row"><span>Mapas:</span> <span id="texture-res" class="mono">---</span></div>
                 </div>
             </div>
 
             <div class="viewer-area">
                 <div class="viewer-wrapper">
                     <model-viewer id="ar-viewer" 
-                        src="https://modelviewer.dev/shared-assets/models/DamagedHelmet.glb"
-                        ios-src="https://modelviewer.dev/shared-assets/models/DamagedHelmet.glb"
-                        alt="Prototipagem 3D"
+                        src="DamagedHelmet.glb"
+                        ios-src="DamagedHelmet.glb"
+                        alt="Modelo 3D Técnico"
                         
                         ar 
                         ar-modes="webxr scene-viewer quick-look" 
@@ -68,25 +68,25 @@
                         disable-zoom
                         
                         shadow-intensity="1.8" 
-                        shadow-softness="0.5"
+                        shadow-softness="0.8"
                         environment-image="neutral" 
                         exposure="1.0"
                         tone-mapping="aces">
                         
                         <button class="ar-button" slot="ar-button">
-                            👁‍🗨 INICIAR PROJEÇÃO AR
+                            👁‍🗨 PROJETAR EM AR
                         </button>
                     </model-viewer>
                     
                     <div class="overlay-tech">
-                        <span>RENDER: PBR_METALLIC_ROUGHNESS</span>
-                        <span>FOV: 45°</span>
+                        <span>API: WebGL 2.0</span>
+                        <span>MODE: REALTIME PBR</span>
                     </div>
                 </div>
                 
                 <div class="info-footer">
-                    <h2 id="model-title">M-78 Battle Helmet</h2>
-                    <p id="model-desc">Exemplo de alta fidelidade em texturização PBR. Observe o mapa de emissão (luzes) e o mapa de normais simulando danos físicos na superfície metálica.</p>
+                    <h2 id="model-title">Carregando...</h2>
+                    <p id="model-desc">Selecione um ativo para iniciar a análise técnica.</p>
                 </div>
             </div>
         </div>
